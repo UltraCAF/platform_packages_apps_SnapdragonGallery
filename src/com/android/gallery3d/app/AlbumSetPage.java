@@ -56,8 +56,6 @@ import com.android.gallery3d.picasasource.PicasaSource;
 import com.android.gallery3d.ui.ActionModeHandler;
 import com.android.gallery3d.ui.ActionModeHandler.ActionModeListener;
 import com.android.gallery3d.ui.AlbumSetSlotRenderer;
-import com.android.gallery3d.ui.DetailsHelper;
-import com.android.gallery3d.ui.DetailsHelper.CloseListener;
 import com.android.gallery3d.ui.GLRoot;
 import com.android.gallery3d.ui.GLView;
 import com.android.gallery3d.ui.SelectionManager;
@@ -107,9 +105,6 @@ public class AlbumSetPage extends ActivityState implements
     private boolean mGetContent;
     private boolean mGetAlbum;
     private ActionModeHandler mActionModeHandler;
-    private DetailsHelper mDetailsHelper;
-    private MyDetailsSource mDetailsSource;
-    private boolean mShowDetails;
     private EyePosition mEyePosition;
     private Handler mHandler;
 
@@ -171,12 +166,7 @@ public class AlbumSetPage extends ActivityState implements
             int slotViewRight = right - left - paddingRight;
             int slotViewLeft = paddingLeft ;
 
-
-            if (mShowDetails) {
-                mDetailsHelper.layout(slotViewLeft, slotViewTop, slotViewRight, slotViewBottom);
-            } else {
-                mAlbumSetView.setHighlightItemPath(null);
-            }
+            mAlbumSetView.setHighlightItemPath(null);
 
             mSlotView.layout(slotViewLeft, slotViewTop, slotViewRight, slotViewBottom);
         }
@@ -204,9 +194,7 @@ public class AlbumSetPage extends ActivityState implements
 
     @Override
     public void onBackPressed() {
-        if (mShowDetails) {
-            hideDetails();
-        } else if (mSelectionManager.inSelectionMode()) {
+        if (mSelectionManager.inSelectionMode()) {
             mSelectionManager.leaveSelectionMode();
         } else {
             super.onBackPressed();
@@ -369,7 +357,6 @@ public class AlbumSetPage extends ActivityState implements
         mTitle = data.getString(AlbumSetPage.KEY_SET_TITLE);
         mSubtitle = data.getString(AlbumSetPage.KEY_SET_SUBTITLE);
         mEyePosition = new EyePosition(context, this);
-        mDetailsSource = new MyDetailsSource();
         mActionBar = mActivity.getGalleryActionBar();
         //mSelectedAction = data.getInt(AlbumSetPage.KEY_SELECTED_CLUSTER_TYPE,
         //        FilterUtils.CLUSTER_BY_ALBUM);
@@ -483,7 +470,6 @@ public class AlbumSetPage extends ActivityState implements
         mAlbumSetView.pause();
         mActionModeHandler.pause();
         mEyePosition.pause();
-        DetailsHelper.pause();
         // Call disableClusterMenu to avoid receiving callback after paused.
         // Don't hide menu here otherwise the list menu will disappear earlier than
         // the action bar, which is janky and unwanted behavior.
@@ -636,19 +622,6 @@ public class AlbumSetPage extends ActivityState implements
                 mSelectionManager.setAutoLeaveSelectionMode(false);
                 mSelectionManager.enterSelectionMode();
                 return true;
-            case R.id.action_details:
-                if (mAlbumSetDataAdapter.size() != 0) {
-                    if (mShowDetails) {
-                        hideDetails();
-                    } else {
-                        showDetails();
-                    }
-                } else {
-                    Toast.makeText(mActivity,
-                            mActivity.getText(R.string.no_albums_alert),
-                            Toast.LENGTH_SHORT).show();
-                }
-                return true;
             case R.id.action_camera: {
                 GalleryUtils.startCameraActivity(mActivity);
                 return true;
@@ -667,6 +640,14 @@ public class AlbumSetPage extends ActivityState implements
             }
             case R.id.action_settings: {
                 mActivity.startActivity(new Intent(mActivity, GallerySettings.class));
+                return true;
+            }
+            case R.id.action_slideshow: {
+                Bundle data = new Bundle();
+                data.putString(SlideshowPage.KEY_SET_PATH, mMediaSet.getPath().toString());
+                data.putBoolean(SlideshowPage.KEY_REPEAT, GalleryUtils.isRepeatSlideshow(mActivity));
+                data.putBoolean(SlideshowPage.KEY_RANDOM_ORDER, GalleryUtils.isRandomSlideshow(mActivity));
+                mActivity.getStateManager().startState(SlideshowPage.class, data);
                 return true;
             }
             default:
@@ -729,27 +710,6 @@ public class AlbumSetPage extends ActivityState implements
         mActionModeHandler.updateSupportedOperation(path, selected);
     }
 
-    private void hideDetails() {
-        mShowDetails = false;
-        mDetailsHelper.hide();
-        mAlbumSetView.setHighlightItemPath(null);
-        mSlotView.invalidate();
-    }
-
-    private void showDetails() {
-        mShowDetails = true;
-        if (mDetailsHelper == null) {
-            mDetailsHelper = new DetailsHelper(mActivity, mRootPane, mDetailsSource);
-            mDetailsHelper.setCloseListener(new CloseListener() {
-                @Override
-                public void onClose() {
-                    hideDetails();
-                }
-            });
-        }
-        mDetailsHelper.show();
-    }
-
     @Override
     public void onSyncDone(final MediaSet mediaSet, final int resultCode) {
         if (resultCode == MediaSet.SYNC_RESULT_ERROR) {
@@ -785,33 +745,6 @@ public class AlbumSetPage extends ActivityState implements
         @Override
         public void onLoadingFinished(boolean loadingFailed) {
             clearLoadingBit(BIT_LOADING_RELOAD);
-        }
-    }
-
-    private class MyDetailsSource implements DetailsHelper.DetailsSource {
-        private int mIndex;
-
-        @Override
-        public int size() {
-            return mAlbumSetDataAdapter.size();
-        }
-
-        @Override
-        public int setIndex() {
-            Path id = mSelectionManager.getSelected(false).get(0);
-            mIndex = mAlbumSetDataAdapter.findSet(id);
-            return mIndex;
-        }
-
-        @Override
-        public MediaDetails getDetails() {
-            MediaObject item = mAlbumSetDataAdapter.getMediaSet(mIndex);
-            if (item != null) {
-                mAlbumSetView.setHighlightItemPath(item.getPath());
-                return item.getDetails();
-            } else {
-                return null;
-            }
         }
     }
 }
