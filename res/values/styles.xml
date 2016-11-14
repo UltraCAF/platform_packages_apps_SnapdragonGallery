@@ -15,14 +15,17 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <style name="Theme.GalleryBase" parent="android:Theme.DeviceDefault.NoActionBar.Fullscreen">
+    <style name="Theme.GalleryBase" parent="android:Theme.Holo">
         <item name="listPreferredItemHeightSmall">48dp</item>
         <item name="switchStyle">@android:style/Widget.CompoundButton</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+	<item name="android:windowSwipeToDismiss">true</item>
     </style>
 
     <style name="Theme.Gallery.Dialog" parent="android:Theme.Holo.Dialog" />
 
-    <style name="Theme.Gallery" parent="android:Theme.DeviceDefault.NoActionBar.Fullscreen">
+    <style name="Theme.Gallery" parent="android:Theme.Material.Light">
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
@@ -32,6 +35,9 @@
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:actionOverflowButtonStyle">@style/WhiteOverflow</item>
         <item name="android:logo">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+	<item name="android:windowSwipeToDismiss">true</item>
     </style>
     <style name="Theme.FilterShow" parent="Theme.Gallery">
         <item name="android:windowBackground">@null</item>
@@ -41,7 +47,10 @@
     <style name="FilterShowToolbar" parent="@android:style/Widget.Toolbar">
         <item name="android:contentInsetStart">0dp</item>
     </style>
-    <style name="Theme.MovieActivity" parent="android:Theme.DeviceDefault.NoActionBar.Fullscreen">
+    <style name="Theme.MovieActivity" parent="android:Theme.DeviceDefault.Light.DarkActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+	<item name="android:windowSwipeToDismiss">true</item>
     </style>
     <style name="Theme.Crop" parent="Theme.GalleryBase">
         <item name="android:displayOptions"></item>
@@ -79,7 +88,7 @@
         <item name="android:colorBackground">@android:color/black</item>
         <item name="android:colorBackgroundCacheHint">@android:color/black</item>
     </style>
-    <style name="Theme.CameraBase" parent="android:Theme.DeviceDefault.NoActionBar.Fullscreen"/>
+    <style name="Theme.CameraBase" parent="android:Theme.Black.NoTitleBar.Fullscreen"/>
     <style name="OnScreenHintTextAppearance">
         <item name="android:textColor">@android:color/primary_text_dark</item>
         <item name="android:textColorHighlight">#FFFF9200</item>
@@ -310,7 +319,7 @@
         <item name="android:background">@drawable/bg_pressed</item>
     </style>
 
-    <style name="AppTheme" parent="android:Theme.DeviceDefault.NoActionBar.Fullscreen">
+    <style name="AppTheme" parent="android:Theme.Material.Light">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowBackground">@android:color/black</item>
         <item name="android:statusBarColor">@android:color/transparent</item>

@@ -305,7 +305,7 @@ public class AlbumPage extends ActivityState implements GalleryActionBar.Cluster
     private void onUp(boolean followedByLongPress) {
         if (followedByLongPress) {
             // Avoid showing press-up animations for long-press.
-            mAlbumView.setPressedIndex(-1);
+            //mAlbumView.setPressedIndex(-1);
         } else {
             mAlbumView.setPressedUp();
         }
@@ -515,7 +515,7 @@ public class AlbumPage extends ActivityState implements GalleryActionBar.Cluster
         mAlbumDataAdapter.resume();
 
         mAlbumView.resume();
-        mAlbumView.setPressedIndex(-1);
+        //mAlbumView.setPressedIndex(-1);
         mActionModeHandler.resume();
         if (!mInitialSynced) {
             setLoadingBit(BIT_LOADING_SYNC);
@@ -641,13 +641,16 @@ public class AlbumPage extends ActivityState implements GalleryActionBar.Cluster
             inflator.inflate(R.menu.pickup, menu);
             int typeBits = mData.getInt(GalleryActivity.KEY_TYPE_BITS,
                     DataManager.INCLUDE_IMAGE);
-            mActionBar.setTitle(GalleryUtils.getSelectionModePrompt(typeBits));
+            if(mActionBar != null){
+                mActionBar.setTitle(GalleryUtils.getSelectionModePrompt(typeBits));
+            }
         } else {
             inflator.inflate(R.menu.album, menu);
-            mActionBar.setTitle(mMediaSet.getName());
+            if(mActionBar != null){
+                mActionBar.setTitle(mMediaSet.getName());
 
-            FilterUtils.setupMenuItems(mActionBar, mMediaSetPath, true);
-
+                FilterUtils.setupMenuItems(mActionBar, mMediaSetPath, true);
+            }
             menu.findItem(R.id.action_camera).setVisible(
                    GalleryUtils.isAnyCameraAvailable(mActivity));
             menu.findItem(R.id.action_slideshow).setVisible(!mIsVideoScreen);

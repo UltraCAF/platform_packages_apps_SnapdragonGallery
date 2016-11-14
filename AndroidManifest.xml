@@ -60,7 +60,6 @@
             android:hardwareAccelerated="true"
             android:largeHeap="true"
             android:restoreAnyVersion="true"
-            android:theme="@style/AppTheme"
             android:supportsRtl="true"
             android:usesCleartextTraffic="true">
         <uses-library android:name="com.google.android.media.effects" android:required="false" />
@@ -191,7 +190,7 @@
         <!-- This activity acts as a trampoline to the new Gallery activity,
              so that existing shortcuts are preserved. -->
         <activity android:name="com.android.gallery3d.app.Gallery"
-            android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
+            android:theme="@style/android:Theme.NoDisplay">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -216,7 +215,7 @@
             android:icon="@mipmap/ic_launcher_camera"
             android:label="@string/camera_label"
             android:taskAffinity="com.android.camera.CameraActivity"
-            android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen" />
+            android:theme="@style/android:Theme.NoDisplay" />
         <activity-alias android:name="com.android.camera.CameraLauncher"
             android:label="@string/camera_label"
             android:targetActivity="com.android.camera.CameraActivity">
@@ -242,7 +241,7 @@
 
         <activity android:name="com.android.gallery3d.app.Wallpaper"
                 android:configChanges="keyboardHidden|orientation|screenSize"
-                android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
+                android:theme="@style/android:Theme.Translucent.NoTitleBar">
             <intent-filter android:label="@string/camera_setas_wallpaper">
                 <action android:name="android.intent.action.ATTACH_DATA" />
                 <data android:mimeType="image/*" />
@@ -337,7 +336,7 @@
                 android:exported="false"/>
         <activity
                 android:name="com.android.gallery3d.gadget.WidgetClickHandler"
-                android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen"/>
+                android:theme="@android:style/Theme.NoDisplay" />
         <activity android:name="com.android.gallery3d.app.DialogPicker"
                 android:configChanges="keyboardHidden|orientation|screenSize"
                 android:theme="@style/DialogPickerTheme"/>
@@ -369,7 +368,7 @@
                 android:permission="android.permission.BIND_REMOTEVIEWS"/>
         <activity android:name="com.android.gallery3d.gadget.WidgetConfigure"
                 android:configChanges="keyboardHidden|orientation|screenSize"
-                android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
+                android:theme="@style/android:Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -385,7 +384,7 @@
         <service android:name="com.android.camera.MediaSaveService" />
 
         <activity android:name="org.codeaurora.gallery3d.video.SettingsActivity"
-                android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen"
+                android:theme="@android:style/Theme.Material.Light"
                 android:configChanges="keyboardHidden|orientation|screenSize"
                 android:label="@string/streaming_settings" >
             <intent-filter>
@@ -404,7 +403,7 @@
                 android:configChanges="keyboardHidden|orientation|screenSize"
                 android:icon="@drawable/ic_menu_display_bookmark"
                 android:label="@string/bookmark_list"
-                android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen" >
+                android:theme="@android:style/Theme.Holo" >
             <intent-filter>
                 <action android:name="org.codeaurora.bookmark.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -412,7 +411,7 @@
         </activity>
         <activity android:name="org.codeaurora.gallery3d.video.VideoSettingsActivity"
                 android:label="@string/movie_view_label"
-                android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen"
+                android:theme="@android:style/Theme.Material.Light"
                 android:configChanges="orientation|keyboardHidden|screenSize|mnc|mcc">
         </activity>
     </application>

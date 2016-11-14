@@ -262,7 +262,7 @@ public class TimeLinePage extends ActivityState implements
     private void onUp(boolean followedByLongPress) {
         if (followedByLongPress) {
             // Avoid showing press-up animations for long-press.
-            mAlbumView.setPressedIndex(-1);
+            //mAlbumView.setPressedIndex(-1);
         } else {
             mAlbumView.setPressedUp();
         }
@@ -379,6 +379,7 @@ public class TimeLinePage extends ActivityState implements
             mSelectionManager.toggle(item.getPath());
             mSlotView.invalidate();
         }
+
     }
 
     @Override
