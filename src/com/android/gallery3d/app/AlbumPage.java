@@ -641,13 +641,15 @@ public class AlbumPage extends ActivityState implements GalleryActionBar.Cluster
             inflator.inflate(R.menu.pickup, menu);
             int typeBits = mData.getInt(GalleryActivity.KEY_TYPE_BITS,
                     DataManager.INCLUDE_IMAGE);
-            mActionBar.setTitle(GalleryUtils.getSelectionModePrompt(typeBits));
+	    if(mActionBar != null){
+                mActionBar.setTitle(GalleryUtils.getSelectionModePrompt(typeBits));
+            }
         } else {
             inflator.inflate(R.menu.album, menu);
-            mActionBar.setTitle(mMediaSet.getName());
-
-            FilterUtils.setupMenuItems(mActionBar, mMediaSetPath, true);
-
+            if(mActionBar != null){
+                mActionBar.setTitle(mMediaSet.getName());
+                FilterUtils.setupMenuItems(mActionBar, mMediaSetPath, true);
+            }
             menu.findItem(R.id.action_camera).setVisible(
                    GalleryUtils.isAnyCameraAvailable(mActivity));
             menu.findItem(R.id.action_slideshow).setVisible(!mIsVideoScreen);
