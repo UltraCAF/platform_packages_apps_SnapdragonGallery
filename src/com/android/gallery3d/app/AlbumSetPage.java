@@ -332,8 +332,8 @@ public class AlbumSetPage extends ActivityState implements
 
     private void onUp(boolean followedByLongPress) {
         if (followedByLongPress) {
-            // Avoid showing press-up animations for long-press.
-            mAlbumSetView.setPressedIndex(-1);
+            // Avoid showing press-up animations for long-press.For wear we are removing this
+            //mAlbumSetView.setPressedIndex(-1); This will do GL render in background thread and causing null exception because of multiple call
         } else {
             mAlbumSetView.setPressedUp();
         }

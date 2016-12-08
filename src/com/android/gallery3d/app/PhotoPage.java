@@ -932,6 +932,9 @@ public abstract class PhotoPage extends ActivityState implements
     }
 
     private void refreshHidingMessage() {
+        if (mPhotoView == null) {
+            mPhotoView = (PhotoView) mRootPane.getComponent(0);
+        }
         mHandler.removeMessages(MSG_HIDE_BARS);
         if (!mIsMenuVisible && !mPhotoView.getFilmMode()) {
             mHandler.sendEmptyMessageDelayed(MSG_HIDE_BARS, HIDE_BARS_TIMEOUT);
