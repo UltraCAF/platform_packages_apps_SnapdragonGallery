@@ -78,9 +78,6 @@ public class TrimVideo extends Activity implements
         mContext = getApplicationContext();
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_ACTION_BAR);
-        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-
         ActionBar actionBar = getActionBar();
         int displayOptions = ActionBar.DISPLAY_SHOW_HOME;
         actionBar.setDisplayOptions(0, displayOptions);
