@@ -414,5 +414,8 @@
                 android:theme="@android:style/Theme.Material.Light"
                 android:configChanges="orientation|keyboardHidden|screenSize|mnc|mcc">
         </activity>
+        <activity android:name="com.android.gallery3d.app.BlankActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize|mnc|mcc">
+        </activity>
     </application>
 </manifest>

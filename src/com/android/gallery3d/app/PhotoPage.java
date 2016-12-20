@@ -78,7 +78,7 @@ import com.android.gallery3d.util.UsageStatistics;
 
 import java.util.List;
 import java.util.Locale;
-
+import com.android.gallery3d.app.BlankActivity;
 //import android.drm.DrmHelper;
 
 public abstract class PhotoPage extends ActivityState implements
@@ -1387,10 +1387,8 @@ public abstract class PhotoPage extends ActivityState implements
             return;
         }
         try {
-            Intent intent = new Intent(Intent.ACTION_VIEW)
-                    .setDataAndType(uri, "video/*")
-                    .putExtra(Intent.EXTRA_TITLE, title)
-                    .putExtra(MovieActivity.KEY_TREAT_UP_AS_BACK, true);
+            Intent intent = new Intent(activity,BlankActivity.class);
+            intent.putExtra("videoUri", uri.toString());
             activity.startActivityForResult(intent, REQUEST_PLAY_VIDEO);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(activity, activity.getString(R.string.video_err),
