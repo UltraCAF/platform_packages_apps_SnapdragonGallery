@@ -293,6 +293,7 @@ DialogInterface.OnDismissListener, PopupMenu.OnDismissListener{
     private FilterPresetSource mFilterPresetSource;
     private ArrayList <SaveOption>  tempFilterArray = new ArrayList<SaveOption>();
     private boolean mChangeable = false;
+    private int mOrientation;
 
     public ProcessingService getProcessingService() {
         return mBoundService;
@@ -309,6 +310,7 @@ DialogInterface.OnDismissListener, PopupMenu.OnDismissListener{
     private void registerFilter() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ProcessingService.SAVE_IMAGE_COMPLETE_ACTION);
+        filter.addAction(Intent.ACTION_LOCALE_CHANGED);
         registerReceiver(mHandlerReceiver, filter);
     }
 
@@ -326,6 +328,10 @@ DialogInterface.OnDismissListener, PopupMenu.OnDismissListener{
                     boolean releaseDualCam = bundle.getBoolean(ProcessingService.KEY_DUALCAM);
                     completeSaveImage(saveUri, releaseDualCam);
                 }
+            } else if (Intent.ACTION_LOCALE_CHANGED.equals(action)) {
+                FiltersManager.reset();
+                getProcessingService().setupPipeline();
+                fillCategories();
             }
         }
     };
@@ -402,6 +408,7 @@ DialogInterface.OnDismissListener, PopupMenu.OnDismissListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mOrientation = getResources().getConfiguration().orientation;
         boolean onlyUsePortrait = getResources().getBoolean(R.bool.only_use_portrait);
         if (onlyUsePortrait) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -1345,27 +1352,27 @@ DialogInterface.OnDismissListener, PopupMenu.OnDismissListener{
     }
 
     public CategoryAdapter getCategoryWatermarkAdapter() {
-        return mCategoryWatermarkAdapters.get(0);
+        return (mCategoryWatermarkAdapters != null) ? mCategoryWatermarkAdapters.get(0) : null;
     }
 
     public CategoryAdapter getCategoryLocationAdapter() {
-        return mCategoryWatermarkAdapters.get(1);
+        return (mCategoryWatermarkAdapters != null) ? mCategoryWatermarkAdapters.get(1) : null;
     }
 
     public CategoryAdapter getCategoryTimeAdapter() {
-        return mCategoryWatermarkAdapters.get(2);
+        return (mCategoryWatermarkAdapters != null) ? mCategoryWatermarkAdapters.get(2) : null;
     }
 
     public CategoryAdapter getCategoryWeatherAdapter() {
-        return mCategoryWatermarkAdapters.get(3);
+        return (mCategoryWatermarkAdapters != null) ? mCategoryWatermarkAdapters.get(3) : null;
     }
 
     public CategoryAdapter getCategoryEmotionAdapter() {
-        return mCategoryWatermarkAdapters.get(4);
+        return (mCategoryWatermarkAdapters != null) ? mCategoryWatermarkAdapters.get(4) : null;
     }
 
     public CategoryAdapter getCategoryFoodAdapter() {
-        return mCategoryWatermarkAdapters.get(5);
+        return (mCategoryWatermarkAdapters != null) ? mCategoryWatermarkAdapters.get(5) : null;
     }
 
     public void removeFilterRepresentation(FilterRepresentation filterRepresentation) {
@@ -1512,10 +1519,12 @@ DialogInterface.OnDismissListener, PopupMenu.OnDismissListener{
         if (mWaterMarkView != null) {
             rlImageContainer.removeView(mWaterMarkView);
             hasWaterMark = false;
+            watermarkRepresentation.reset();
         }
+        DisplayMetrics dm = getResources().getDisplayMetrics();
         RelativeLayout.LayoutParams params =
-                new RelativeLayout.LayoutParams(mImageShow.getImageShowWidth(),
-                        mImageShow.getImageShowHeight());
+                new RelativeLayout.LayoutParams(dm.widthPixels,
+                        dm.heightPixels);
         String textHint;
         switch (watermarkRepresentation.getMarkType()) {
             case 0:
@@ -1534,6 +1543,7 @@ DialogInterface.OnDismissListener, PopupMenu.OnDismissListener{
         mSaveWaterMark.useRepresentation(representation);
         imgComparison.bringToFront();
         mSaveWaterMark.getExifData(this, mSelectedImageUri);
+        mWaterMarkView.mTouchable = true;
         hasWaterMark = true;
     }
 
@@ -1543,6 +1553,11 @@ DialogInterface.OnDismissListener, PopupMenu.OnDismissListener{
             mWaterMarkView = null;
             hasWaterMark = false;
         }
+    }
+
+    public void disableTouchEvent() {
+        if (mWaterMarkView == null) return;
+        mWaterMarkView.mTouchable = false;
     }
 
     public boolean isWaterMarked() {
@@ -1614,6 +1629,7 @@ DialogInterface.OnDismissListener, PopupMenu.OnDismissListener{
     }
 
     public void onMediaPickerStarted() {
+        mPresetDialog = null;
         toggleComparisonButtonVisibility();
         ActionBar actionBar = getActionBar();
         actionBar.hide();
@@ -2374,7 +2390,10 @@ DialogInterface.OnDismissListener, PopupMenu.OnDismissListener{
         super.onConfigurationChanged(newConfig);
 
         setDefaultValues();
-
+        if (mOrientation != newConfig.orientation) {
+            TrueScannerActs.setRotating(true);
+            mOrientation = newConfig.orientation;
+        }
         switch (newConfig.orientation) {
             case (Configuration.ORIENTATION_LANDSCAPE):
                 if (mPresetDialog != null) {

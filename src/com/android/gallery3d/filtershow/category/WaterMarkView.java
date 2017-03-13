@@ -103,6 +103,7 @@ public class WaterMarkView extends FrameLayout {
     private int oldWidth;
     private int oldHeight;
     private boolean sizeChanged = false;
+    public boolean mTouchable;
 
     public WaterMarkView(Context context) {
         super(context);
@@ -191,6 +192,7 @@ public class WaterMarkView extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (!mTouchable) return false;
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 markLayout.setFocusable(true);
@@ -381,7 +383,6 @@ public class WaterMarkView extends FrameLayout {
         if (null != bmpDest) {
             Canvas canvas = new Canvas(bmpDest);
             Matrix m = new Matrix();
-            float scale = markLayoutRect.width() / bmpSrc.getWidth();
             m.setScale(scale, scale);
             m.postRotate(getFinalRotation());
             if (b.getWidth() < b.getHeight()) {
@@ -510,6 +511,8 @@ public class WaterMarkView extends FrameLayout {
         markTop = markLayoutRect.top;
         markRight = markLayoutRect.right;
         markBottom = markLayoutRect.bottom;
+        markLayout.setPivotX(0);
+        markLayout.setPivotY(0);
         markLayout.setScaleX(scale);
         markLayout.setScaleY(scale);
         markLayout.setTranslationX(markLayoutRect.left);
