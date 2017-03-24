@@ -1,4 +1,7 @@
 /*
+ * Copyright (c) 2017, The Linux Foundation. All rights reserved.
+ * Not a Contribution
+ *
  * Copyright (C) 2010 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -144,14 +147,16 @@ public class ActionModeHandler implements Callback, PopupList.OnPopupItemClickLi
         mActionMode = mActivity.getToolbar().startActionMode(this);
         View customView = LayoutInflater.from(a).inflate(
                 R.layout.action_mode, null);
-        mActionMode.setCustomView(customView);
+        if(mActionMode != null)
+            mActionMode.setCustomView(customView);
         mSelectionMenu = new SelectionMenu(a,
                 (Button) customView.findViewById(R.id.selection_menu), this);
         updateSelectionMenu();
     }
 
     public void finishActionMode() {
-        mActionMode.finish();
+        if(mActionMode != null)
+            mActionMode.finish();
     }
 
     public void setTitle(String title) {

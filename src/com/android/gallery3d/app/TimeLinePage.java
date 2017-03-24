@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
  * Not a Contribution
  *
  * Copyright (C) 2010 The Android Open Source Project
@@ -525,7 +525,8 @@ public class TimeLinePage extends ActivityState implements
 
             @Override
             public void onLongTap(int slotIndex, boolean isTitle) {
-                TimeLinePage.this.onLongTap(slotIndex, isTitle);
+                //Long press is for Multiple delete and share. This is not supporting
+                //TimeLinePage.this.onLongTap(slotIndex, isTitle);
             }
         });
         mActionModeHandler = new ActionModeHandler(mActivity, mSelectionManager);

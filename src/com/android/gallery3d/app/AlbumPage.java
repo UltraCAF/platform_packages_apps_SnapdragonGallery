@@ -1,4 +1,7 @@
 /*
+ * Copyright (c) 2017, The Linux Foundation. All rights reserved.
+ * Not a Contribution
+ *
  * Copyright (C) 2010 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -587,7 +590,8 @@ public class AlbumPage extends ActivityState implements GalleryActionBar.Cluster
 
             @Override
             public void onLongTap(int slotIndex) {
-                AlbumPage.this.onLongTap(slotIndex);
+                //Long press is for Multiple delete and share. This is not supporting
+                //AlbumPage.this.onLongTap(slotIndex);
             }
         });
         mActionModeHandler = new ActionModeHandler(mActivity, mSelectionManager);

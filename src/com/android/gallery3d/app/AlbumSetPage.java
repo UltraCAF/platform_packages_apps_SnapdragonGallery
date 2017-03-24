@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
  * Not a Contribution.
  *
  * Copyright (C) 2010 The Android Open Source Project
@@ -556,7 +556,8 @@ public class AlbumSetPage extends ActivityState implements
 
             @Override
             public void onLongTap(int slotIndex) {
-                AlbumSetPage.this.onLongTap(slotIndex);
+                //Long press is for Multiple delete and share. This is not supporting
+                //AlbumSetPage.this.onLongTap(slotIndex);
             }
         });
 
