@@ -204,6 +204,7 @@ public class GalleryUtils {
     }
 
     public static boolean isEditorAvailable(Context context, String mimeType) {
+        /* Wearable not supporting photo editing, returning false
         int version = PackagesMonitor.getPackagesVersion(context);
 
         String updateKey = PREFIX_PHOTO_EDITOR_UPDATE + mimeType;
@@ -219,7 +220,8 @@ public class GalleryUtils {
                         .commit();
         }
 
-        return prefs.getBoolean(hasKey, true);
+        return prefs.getBoolean(hasKey, true);*/
+        return false;
     }
 
     public static boolean isAnyCameraAvailable(Context context) {
