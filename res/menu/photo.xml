@@ -83,4 +83,7 @@
         android:enabled="true"
         android:visible="false"
         android:showAsAction="never" />
+    <item android:id="@+id/action_settings"
+            android:title="@string/settings"
+            android:showAsAction="never" />
 </menu>

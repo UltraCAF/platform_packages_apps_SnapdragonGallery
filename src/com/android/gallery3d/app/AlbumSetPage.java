@@ -42,6 +42,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.codeaurora.gallery.R;
+import com.android.gallery3d.app.GallerySettings;
 import com.android.gallery3d.common.Utils;
 import com.android.gallery3d.data.DataManager;
 import com.android.gallery3d.data.MediaDetails;
@@ -52,7 +53,6 @@ import com.android.gallery3d.data.Path;
 import com.android.gallery3d.glrenderer.FadeTexture;
 import com.android.gallery3d.glrenderer.GLCanvas;
 import com.android.gallery3d.picasasource.PicasaSource;
-import com.android.gallery3d.settings.GallerySettings;
 import com.android.gallery3d.ui.ActionModeHandler;
 import com.android.gallery3d.ui.ActionModeHandler.ActionModeListener;
 import com.android.gallery3d.ui.AlbumSetSlotRenderer;
@@ -622,7 +622,6 @@ public class AlbumSetPage extends ActivityState implements
 
     @Override
     protected boolean onItemSelected(MenuItem item) {
-        Activity activity = mActivity;
         switch (item.getItemId()) {
             case R.id.action_more_image:
                 Uri moreUri = Uri.parse(mActivity.getString(R.string.website_for_more_image));
@@ -630,8 +629,8 @@ public class AlbumSetPage extends ActivityState implements
                 mActivity.startActivity(moreIntent);
                 return true;
             case R.id.action_cancel:
-                activity.setResult(Activity.RESULT_CANCELED);
-                activity.finish();
+                mActivity.setResult(Activity.RESULT_CANCELED);
+                mActivity.finish();
                 return true;
             case R.id.action_select:
                 mSelectionManager.setAutoLeaveSelectionMode(false);
@@ -645,13 +644,13 @@ public class AlbumSetPage extends ActivityState implements
                         showDetails();
                     }
                 } else {
-                    Toast.makeText(activity,
-                            activity.getText(R.string.no_albums_alert),
+                    Toast.makeText(mActivity,
+                            mActivity.getText(R.string.no_albums_alert),
                             Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.action_camera: {
-                GalleryUtils.startCameraActivity(activity);
+                GalleryUtils.startCameraActivity(mActivity);
                 return true;
             }
             case R.id.action_manage_offline: {
@@ -663,13 +662,13 @@ public class AlbumSetPage extends ActivityState implements
                 return true;
             }
             case R.id.action_sync_picasa_albums: {
-                PicasaSource.requestSync(activity);
+                PicasaSource.requestSync(mActivity);
                 return true;
             }
-            /*case R.id.action_settings: {
-                activity.startActivity(new Intent(activity, GallerySettings.class));
+            case R.id.action_settings: {
+                mActivity.startActivity(new Intent(mActivity, GallerySettings.class));
                 return true;
-            }*/
+            }
             default:
                 return false;
         }

@@ -21,4 +21,9 @@
     <string name="wallpaper_type_both">Home screen and lock screen</string>
     <string name="wallpaper_type_system">Home screen</string>
     <string name="wallpaper_type_lock">Lock screen</string>
+
+    <string name="slideshow_settings">Slideshow</string>
+    <string name="slideshow_random_title">Show in random order</string>
+    <string name="slideshow_repeat_title">Repeat</string>
+
 </resources>
