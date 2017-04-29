@@ -17,6 +17,11 @@
 
     <color name="default_background">#fafafa</color>
 
+    <!-- main colors -->
+    <color name="primary">@*android:color/primary_material_settings</color>
+    <color name="secondary">@*android:color/secondary_material_settings</color>
+    <color name="accent">@*android:color/accent_material_light</color>
+
     <!-- configuration for album set page -->
     <color name="albumset_background">#fafafa</color>
     <color name="albumset_placeholder">#75000000</color>
