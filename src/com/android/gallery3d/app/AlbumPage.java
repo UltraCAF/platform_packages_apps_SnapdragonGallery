@@ -712,7 +712,8 @@ public class AlbumPage extends ActivityState implements GalleryActionBar.Cluster
                 Bundle data = new Bundle();
                 data.putString(SlideshowPage.KEY_SET_PATH,
                         mMediaSetPath.toString());
-                data.putBoolean(SlideshowPage.KEY_REPEAT, true);
+                data.putBoolean(SlideshowPage.KEY_REPEAT, GalleryUtils.isRepeatSlideshow(mActivity));
+                data.putBoolean(SlideshowPage.KEY_RANDOM_ORDER, GalleryUtils.isRandomSlideshow(mActivity));
                 mActivity.getStateManager().startStateForResult(
                         SlideshowPage.class, REQUEST_SLIDESHOW, data);
                 return true;
@@ -723,6 +724,10 @@ public class AlbumPage extends ActivityState implements GalleryActionBar.Cluster
                 } else {
                     showDetails();
                 }
+                return true;
+            }
+            case R.id.action_settings: {
+                mActivity.startActivity(new Intent(mActivity, GallerySettings.class));
                 return true;
             }
             case R.id.action_camera: {
